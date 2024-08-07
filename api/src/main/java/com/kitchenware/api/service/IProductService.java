@@ -19,7 +19,7 @@ public interface IProductService {
     void editProduct(Product product);
 
     // update part of a product.
-    boolean editProduct(Long id, String name, String brand, Double price, int quantity);
+    boolean editProduct(Long id, String name, String brand, Double price, Integer quantity);
 
     // delete one product by id.
     void deleteProduct(Long id);

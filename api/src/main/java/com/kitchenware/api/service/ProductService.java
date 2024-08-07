@@ -37,14 +37,18 @@ public class ProductService implements IProductService {
 
     // Update part of a product.
     @Override
-    public boolean editProduct(Long id, String newName, String newBrand, Double newPrice, int newQuantity) {
+    public boolean editProduct(Long id, String newName, String newBrand, Double newPrice, Integer newQuantity) {
         Product product = this.getProductById(id);
         if (product == null)
             return false;
-        product.setName(newName);
-        product.setBrand(newBrand);
-        product.setPrice(newPrice);
-        product.setQuantity(newQuantity);
+        if (newName != null)
+            product.setName(newName);
+        if (newBrand != null)
+            product.setBrand(newBrand);
+        if (newPrice != null)
+            product.setPrice(newPrice);
+        if (newQuantity != null)
+            product.setQuantity(newQuantity);
         return true;
     }
 
