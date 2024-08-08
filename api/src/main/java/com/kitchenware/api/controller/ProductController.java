@@ -33,15 +33,16 @@ public class ProductController {
     }
 
     // Read one product.
-//    @GetMapping("/get/{id}")
-//    public ResponseEntity<Product> getProducById(Long id) {
-//        Product product = productService.getProductById(id);
-//        if ( product == null) {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<>(product, HttpStatus.OK);
-//    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Product> getProducById(Long id) {
+        Optional<Product> optionalProduct = productService.getProductById(id);
+        if (optionalProduct.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Product product = optionalProduct.get();
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 
     // Update a whole product.
     @PutMapping("/edit")
@@ -50,6 +51,7 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
+    // Update product by its ID.
     @PutMapping("/edit/{id}")
     public ResponseEntity<Product> editProduct(
         @PathVariable Long id,
@@ -64,6 +66,7 @@ public class ProductController {
         return new ResponseEntity<>(optionalProduct.get(), HttpStatus.OK);
     }
 
+    // Delete a product by its ID.
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(Long id) {
         try {
@@ -72,8 +75,6 @@ public class ProductController {
             return new ResponseEntity<>("The was an error", HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
+    
 
 }
