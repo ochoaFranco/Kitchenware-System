@@ -1,9 +1,6 @@
 package com.kitchenware.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +15,12 @@ public class Sell {
     private Long sellID;
     private LocalDate sellDate;
     private Double total;
+    @OneToMany
     private List<Product> productList;
+    @OneToOne
+    @JoinColumn(name = "sellClient", referencedColumnName = "clientID")
     private Client client;
+
 
     public Sell() {
     }

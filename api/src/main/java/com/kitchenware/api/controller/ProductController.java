@@ -33,8 +33,8 @@ public class ProductController {
     }
 
     // Read one product.
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Product> getProducById(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProducById(@PathVariable Long id) {
         Optional<Product> optionalProduct = productService.getProductById(id);
         if (optionalProduct.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,6 +75,6 @@ public class ProductController {
             return new ResponseEntity<>("The was an error", HttpStatus.BAD_REQUEST);
         }
     }
-    
+
 
 }
