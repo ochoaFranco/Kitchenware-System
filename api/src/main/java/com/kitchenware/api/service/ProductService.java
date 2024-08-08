@@ -1,11 +1,13 @@
 package com.kitchenware.api.service;
 
+import com.kitchenware.api.dto.ProductUpdateDTO;
 import com.kitchenware.api.entity.Product;
 import com.kitchenware.api.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
@@ -25,8 +27,8 @@ public class ProductService implements IProductService {
 
     // Read one product.
     @Override
-    public Product getProductById(Long id) {
-        return productRepo.findById(id).orElse(null);
+    public Optional<Product> getProductById(Long id) {
+        return productRepo.findById(id);
     }
 
     // Update a whole product.
@@ -37,19 +39,15 @@ public class ProductService implements IProductService {
 
     // Update part of a product.
     @Override
-    public boolean editProduct(Long id, String newName, String newBrand, Double newPrice, Integer newQuantity) {
-        Product product = this.getProductById(id);
-        if (product == null)
-            return false;
-        if (newName != null)
-            product.setName(newName);
-        if (newBrand != null)
-            product.setBrand(newBrand);
-        if (newPrice != null)
-            product.setPrice(newPrice);
-        if (newQuantity != null)
-            product.setQuantity(newQuantity);
-        return true;
+    public void editProduct(Product product, ProductUpdateDTO productUpdateDTO) {
+        if (productUpdateDTO.getBrand() != null)
+            product.setBrand(productUpdateDTO.getBrand());
+        if (productUpdateDTO.getName() != null)
+            product.setName(productUpdateDTO.getName());
+        if (productUpdateDTO.getPrice() != null)
+            product.setPrice(productUpdateDTO.getPrice());
+        if (productUpdateDTO.getQuantity() != null)
+            product.setQuantity(productUpdateDTO.getQuantity());
     }
 
     @Override

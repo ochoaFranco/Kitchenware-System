@@ -1,13 +1,16 @@
 package com.kitchenware.api.controller;
 
+import com.kitchenware.api.dto.ProductUpdateDTO;
 import com.kitchenware.api.entity.Product;
 import com.kitchenware.api.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -30,15 +33,15 @@ public class ProductController {
     }
 
     // Read one product.
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Product> getProducById(Long id) {
-        Product product = productService.getProductById(id);
-        if ( product == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    }
+//    @GetMapping("/get/{id}")
+//    public ResponseEntity<Product> getProducById(Long id) {
+//        Product product = productService.getProductById(id);
+//        if ( product == null) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<>(product, HttpStatus.OK);
+//    }
 
     // Update a whole product.
     @PutMapping("/edit")
@@ -46,29 +49,28 @@ public class ProductController {
         productService.saveProduct(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-//        this.brand = brand;
-//        this.name = name;
-//        this.price = price;
-//        this.quantity = quantity;
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<Product> editProduct(@PathVariable Long id, @RequestParam(required = false) String brand,
-                                               @RequestParam(required = false) String name,
-                                               @RequestParam(required = false) Double price,
-                                               @RequestParam(required = false) Integer quantity) {
 
-        Product product = productService.getProductById(id);
-        if (product == null)
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        if (brand != null)
-            product.setBrand(brand);
-        if (name != null)
-            product.setName(name);
-        if (price != null)
-            product.setPrice(price);
-        if (quantity != null)
-            product.setQuantity(quantity);
-        productService.editProduct(id, name, brand, price, quantity);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Product> editProduct(
+        @PathVariable Long id,
+        @Validated
+        @RequestBody ProductUpdateDTO productUpdateDTO) {
+
+         Optional<Product> optionalProduct = productService.getProductById(id);
+         if (optionalProduct.isEmpty())
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+         productService.editProduct(optionalProduct.get(), productUpdateDTO);
+        return new ResponseEntity<>(optionalProduct.get(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteProduct(Long id) {
+        try {
+            return new ResponseEntity<>("The product was deleted", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("The was an error", HttpStatus.BAD_REQUEST);
+        }
     }
 
 
