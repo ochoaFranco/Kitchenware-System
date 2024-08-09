@@ -33,21 +33,21 @@ public class ProductService implements IProductService {
 
     // Update a whole product.
     @Override
-    public void editProduct(Product product) {
-        this.saveProduct(product);
-    }
+    public void
+    editProduct(Long id, Product product) {
+        Optional<Product> optionalProduct = this.getProductById(id);
+        Product p = optionalProduct.get();
+        // Setting attributes.
+        if (product.getName() != null)
+            p.setName(product.getName());
+        if (product.getPrice() != null)
+            p.setPrice(product.getPrice());
+        if (product.getBrand() != null)
+            p.setBrand(product.getBrand());
+        if (product.getQuantity() != null)
+            p.setQuantity(product.getQuantity());
 
-    // Update part of a product.
-    @Override
-    public void editProduct(Product product, ProductUpdateDTO productUpdateDTO) {
-        if (productUpdateDTO.getBrand() != null)
-            product.setBrand(productUpdateDTO.getBrand());
-        if (productUpdateDTO.getName() != null)
-            product.setName(productUpdateDTO.getName());
-        if (productUpdateDTO.getPrice() != null)
-            product.setPrice(productUpdateDTO.getPrice());
-        if (productUpdateDTO.getQuantity() != null)
-            product.setQuantity(productUpdateDTO.getQuantity());
+        this.saveProduct(p);
     }
 
     @Override

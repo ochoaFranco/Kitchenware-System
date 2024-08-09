@@ -1,9 +1,6 @@
 package com.kitchenware.api.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +13,7 @@ public class Product {
     private String name;
     private String brand;
     private Double price;
-    private int quantity;
-
+    private Integer quantity;
     public Product() {
     }
 

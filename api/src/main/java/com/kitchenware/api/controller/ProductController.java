@@ -55,15 +55,14 @@ public class ProductController {
     @PutMapping("/edit/{id}")
     public ResponseEntity<Product> editProduct(
         @PathVariable Long id,
-        @Validated
-        @RequestBody ProductUpdateDTO productUpdateDTO) {
+        @RequestBody Product product) {
 
          Optional<Product> optionalProduct = productService.getProductById(id);
          if (optionalProduct.isEmpty())
              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-         productService.editProduct(optionalProduct.get(), productUpdateDTO);
-        return new ResponseEntity<>(optionalProduct.get(), HttpStatus.OK);
+         productService.editProduct(id, product);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     // Delete a product by its ID.

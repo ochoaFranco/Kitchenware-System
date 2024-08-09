@@ -18,10 +18,7 @@ public interface IProductService {
     Optional<Product> getProductById(Long id);
 
     // update a whole product.
-    void editProduct(Product product);
-
-    // update part of a product.
-    void editProduct(Product product, ProductUpdateDTO productUpdateDTO);
+    void editProduct(Long id,Product product);
 
     // delete one product by id.
     void deleteProduct(Long id);
