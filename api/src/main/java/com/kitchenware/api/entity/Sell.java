@@ -15,10 +15,15 @@ public class Sell {
     private Long sellID;
     private LocalDate sellDate;
     private Double total;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "sell_product",
+            joinColumns = @JoinColumn(name = "sell_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     private List<Product> productList;
     @OneToOne
-    @JoinColumn(name = "sellClient", referencedColumnName = "clientID")
+    @JoinColumn(name = "sellClientID", referencedColumnName = "clientID")
     private Client client;
 
 

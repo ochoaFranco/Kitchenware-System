@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Setter @Getter
 public class Product {
@@ -14,6 +16,8 @@ public class Product {
     private String brand;
     private Double price;
     private Integer quantity;
+    @ManyToMany(mappedBy = "productList")
+    private List<Sell> sellList;
     public Product() {
     }
 
