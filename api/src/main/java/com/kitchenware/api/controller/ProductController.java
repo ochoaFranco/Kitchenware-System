@@ -67,11 +67,12 @@ public class ProductController {
 
     // Delete a product by its ID.
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteProduct(Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
+            productService.deleteProduct(id);
             return new ResponseEntity<>("The product was deleted", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("The was an error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("There was an error", HttpStatus.BAD_REQUEST);
         }
     }
 
