@@ -1,7 +1,6 @@
 package com.kitchenware.api.controller;
 
 import com.kitchenware.api.entity.Client;
-import com.kitchenware.api.entity.Product;
 import com.kitchenware.api.service.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
