@@ -1,8 +1,7 @@
 package com.kitchenware.api.controller;
 
-import com.kitchenware.api.entity.Client;
-import com.kitchenware.api.entity.Product;
-import com.kitchenware.api.service.IClientService;
+import com.kitchenware.api.entity.Sell;
+import com.kitchenware.api.service.ISellService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,61 +14,61 @@ import java.util.Optional;
 @RequestMapping("/sells")
 public class SellController {
     @Autowired
-    private IClientService clientService;
+    private ISellService sellService;
 
-    // Create a client.
+    // Create a sell.
     @PostMapping("/create")
-    public ResponseEntity<Client> saveClient(@RequestBody Client client) {
-        clientService.saveClient(client);
-        return new ResponseEntity<>(client, HttpStatus.CREATED);
+    public ResponseEntity<Sell> saveSell(@RequestBody Sell sell) {
+        sellService.saveSell(sell);
+        return new ResponseEntity<>(sell, HttpStatus.CREATED);
     }
 
-    // Read all clients.
+    // Read all sells.
     @GetMapping()
-    public ResponseEntity<List<Client>> getClients() {
-        List<Client> clientList = clientService.getClients();
-        return new ResponseEntity<>(clientList, HttpStatus.OK);
+    public ResponseEntity<List<Sell>> getSells() {
+        List<Sell> sellList = sellService.getSells();
+        return new ResponseEntity<>(sellList, HttpStatus.OK);
     }
 
-    // Read one client.
+    // Read one sell.
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
-        Optional<Client> optionalClient = clientService.getClientById(id);
-        if (optionalClient.isEmpty())
+    public ResponseEntity<Sell> getSellById(@PathVariable Long id) {
+        Optional<Sell> optionalSell = sellService.getSellById(id);
+        if (optionalSell.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        Client client = optionalClient.get();
+        Sell sell = optionalSell.get();
 
-        return new ResponseEntity<>(client, HttpStatus.OK);
+        return new ResponseEntity<>(sell, HttpStatus.OK);
     }
 
-    // Update a whole client.
+    // Update a whole sell.
     @PutMapping("/edit")
-    public ResponseEntity<Client> editClient(@RequestBody Client client) {
-        clientService.saveClient(client);
-        return new ResponseEntity<>(client, HttpStatus.OK);
+    public ResponseEntity<Sell> editSell(@RequestBody Sell sell) {
+        sellService.saveSell(sell);
+        return new ResponseEntity<>(sell, HttpStatus.OK);
     }
 
-    // Update client by its ID.
+    // Update sell by its ID.
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Client> editClient(
+    public ResponseEntity<Sell> editSell(
             @PathVariable Long id,
-            @RequestBody Client client) {
+            @RequestBody Sell sell) {
 
-        Optional<Client> optionalClient = clientService.getClientById(id);
-        if (optionalClient.isEmpty())
+        Optional<Sell> optionalSell = sellService.getSellById(id);
+        if (optionalSell.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        clientService.editClient(id, client);
-        return new ResponseEntity<>(client, HttpStatus.OK);
+        sellService.editSell(id, sell);
+        return new ResponseEntity<>(optionalSell.get(), HttpStatus.OK);
     }
 
-    // Delete a client by its ID.
+    // Delete a sell by its ID.
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<String> deleteSell(@PathVariable Long id) {
         try {
-            clientService.deleteClient(id);
-            return new ResponseEntity<>("The Client was deleted", HttpStatus.OK);
+            sellService.deleteSell(id);
+            return new ResponseEntity<>("The Sell was deleted", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("There was an error", HttpStatus.BAD_REQUEST);
         }

@@ -60,7 +60,8 @@ public class ClientController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         clientServ.editClient(id, client);
-        return new ResponseEntity<>(client, HttpStatus.OK);
+        Client c = optionalClient.get();
+        return new ResponseEntity<>(c, HttpStatus.OK);
     }
 
 
